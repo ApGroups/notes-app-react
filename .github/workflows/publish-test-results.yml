@@ -21,7 +21,9 @@ jobs:
         run: npm install
 
       - name: Start Application
-        run: npm start &
+        run: 
+          sleep 10
+          npm start &
         env:
           CI: true
 
