@@ -8,7 +8,7 @@ import Note from "./Note";
 const List = ({ notes }) => (
   <div>
     <div className="pb-5 border-b border-gray-200">
-      <h3 className="text-lg leading-6 font-medium text-gray-900">Saved Notes</h3>
+      <h3 className="text-lg leading-6 font-medium text-gray-900">My saved Notes</h3>
     </div>
     <ul className="divide-y divide-gray-200">
       {notes.map((note, index) => (
