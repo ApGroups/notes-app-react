@@ -35,15 +35,12 @@ jobs:
           path: cypress/reports
 
   publish-to-alva:
-    runs-on: ubuntu-latest
+    # Reusable workflow must be referenced here at the top-level `uses` key
+    uses: DevSkillsHQ/publish-test-results-workflow/.github/workflows/publish-test-results.yml@main
     needs: cypress-tests
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Publish Test Results
-        uses: DevSkillsHQ/publish-test-results-workflow/.github/workflows/publish-test-results.yml@main
-        with:
-          resultsPath: cypress/reports
-        secrets:
-          AUTO_SCORE_TOKEN: ${{ secrets.AUTO_SCORE_TOKEN }}
+    permissions:
+      contents: write
+    secrets:
+      AUTO_SCORE_TOKEN: ${{ secrets.AUTO_SCORE_TOKEN }}
+    with:
+      resultsPath: cypress/reports
