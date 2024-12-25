@@ -28,7 +28,7 @@ jobs:
           CI: true
 
       - name: Run Cypress Tests
-        run: npx cypress run 
+        run: npx cypress run --headless
 
       - name: Upload Test Results
         uses: actions/upload-artifact@v3
