@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 const Form = ({ onAddNote }) => {
   const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+  const [body, setBody] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault();
