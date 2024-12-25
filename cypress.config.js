@@ -6,7 +6,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:3000',
 
     // Directory where Cypress will look for test files
-    specPattern: 'cypress/e2e/*.cy.js',
+    specPattern: 'cypress/e2e/tests.cy.js',
 
     // Disable the support file if not used
     supportFile: false,
