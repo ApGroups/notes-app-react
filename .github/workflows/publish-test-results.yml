@@ -43,4 +43,4 @@ jobs:
     secrets:
       AUTO_SCORE_TOKEN: ${{ secrets.AUTO_SCORE_TOKEN }}
     with:
-      resultsPath: cypress/reports
+      resultsPath: cypress/reports/mochawesome.json
