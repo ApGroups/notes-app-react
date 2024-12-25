@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: cypress-results
-          path: cypress/report
+          path: cypress/reports
 
   publish-to-alva:
     # Reusable workflow must be referenced here at the top-level `uses` key
