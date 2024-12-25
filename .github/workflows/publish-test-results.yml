@@ -22,8 +22,7 @@ jobs:
 
       - name: Start Application
         run: 
-          npm start &
-          npx wait-on http://localhost:3000
+          npm start 
         env:
           CI: true
 
