@@ -4,7 +4,7 @@
         - data-type="{note_title}"
         - data-body="{note_body}"
 */}
-const Note = ({ title, body }) => 
+const Note = ({ title, body }) => (
   <div
     className="bg-white shadow overflow-hidden sm:rounded-lg"
     data-type="note"
