@@ -16,7 +16,7 @@ const Form = ({ onAddNote }) => {
     if (title && body) {
       onAddNote({ title, body });
       setTitle('');
-      setBody('');
+      setBody('')
     }
   };
 
