@@ -1,4 +1,4 @@
-const { defineConfig } = require('cypress')
+const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
@@ -13,21 +13,22 @@ module.exports = defineConfig({
 
     // Node event listeners for Cypress
     setupNodeEvents(on, config) {
-      // Add your custom event listeners or plugins here if needed
+      // You can add plugins or custom event listeners here, if needed
+      // Example: require('cypress-mochawesome-reporter/plugin')(on);
     },
 
     // Additional configuration options
-    viewportWidth: 1280, // Default viewport width
-    viewportHeight: 720, // Default viewport height
-    video: true,         // Record video of the tests
-    screenshotsFolder: 'cypress/screenshots',
-    videosFolder: 'cypress/videos',
-    reporter: 'mochawesome', // Set custom reporter
+    viewportWidth: 1280,  // Default viewport width
+    viewportHeight: 720,  // Default viewport height
+    video: true,          // Record videos of the tests
+    screenshotsFolder: 'cypress/screenshots', // Location for screenshots
+    videosFolder: 'cypress/videos',           // Location for videos
+    reporter: 'mochawesome',                  // Use mochawesome for reporting
     reporterOptions: {
-      reportDir: 'cypress/reports',
-      overwrite: false,
-      html: false,
-      json: true,
+      reportDir: 'cypress/reports',           // Directory for reports
+      overwrite: false,                       // Do not overwrite existing reports
+      html: true,                             // Generate HTML reports
+      json: true,                             // Generate JSON reports
     },
   },
-})
+});
