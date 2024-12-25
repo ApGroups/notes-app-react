@@ -1,17 +1,49 @@
-name: Publish test results to Alva
+name: Run Cypress Tests and Publish to Alva
+
 on:
   push:
     branches:
-      - '*'
-      - '*/*'
-      - '!master'
-      - '!main'
+      - implementation-branch
 
 jobs:
-  publish-test-results:
-    name: Publish test results to Alva
-    uses: DevSkillsHQ/publish-test-results-workflow/.github/workflows/publish-test-results.yml@main
-    permissions:
-      contents: write
-    secrets:
-      AUTO_SCORE_TOKEN: ${{ secrets.AUTO_SCORE_TOKEN }}
+  cypress-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start Application
+        run: npm start &
+        env:
+          CI: true
+
+      - name: Run Cypress Tests
+        run: npx cypress run
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-results
+          path: cypress/reports
+
+  publish-to-alva:
+    runs-on: ubuntu-latest
+    needs: cypress-tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Publish Test Results
+        uses: DevSkillsHQ/publish-test-results-workflow/.github/workflows/publish-test-results.yml@main
+        with:
+          resultsPath: cypress/reports
+        secrets:
+          AUTO_SCORE_TOKEN: ${{ secrets.AUTO_SCORE_TOKEN }}
