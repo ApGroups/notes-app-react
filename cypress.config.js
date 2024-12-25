@@ -6,7 +6,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:3000',
 
     // Directory where Cypress will look for test files
-    specPattern: '/home/runner/work/notes-app-react/notes-app-react/cypress/e2e/tests.cy.js',
+    specPattern: 'cypress/e2e/tests.cy.js',
 
     // Disable the support file if not used
     supportFile: false,
