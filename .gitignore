@@ -33,7 +33,7 @@ yarn-error.log*
 # vercel
 .vercel
 
-!cypress/integration
-cypress/
+!cypress/e2e
+
 
 .idea
