@@ -25,7 +25,7 @@ module.exports = defineConfig({
     videosFolder: 'cypress/videos',           // Location for videos
     reporter: 'mochawesome',                  // Use mochawesome for reporting
     reporterOptions: {
-      reportDir: 'cypress/reports',           // Directory for reports
+      reportDir: 'cypress/reports/mocha',           // Directory for reports
       overwrite: false,                       // Do not overwrite existing reports
       html: true,                             // Generate HTML reports
       json: true,                             // Generate JSON reports
