@@ -55,25 +55,31 @@ jobs:
           fi
         env:
           CI: true
-
+          
       - name: Fetch GitHub Repo Data
         run: |
-          if [ -z "${GITHUB_REPOSITORY}" ]; then
-            echo "Error: GITHUB_REPOSITORY is undefined"
-            exit 1
-          fi
+          retry=0
+          max_retries=3
+          url="https://api.github.com/repos/ApGroups/notes-app-react"
 
-          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}"
-          echo "Fetching data from $URL..."
+          while [ $retry -le $max_retries ]; do
+            echo "Attempt: $((retry + 1))"
+            response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$url")
 
-          response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$URL")
+            if [ -n "$response" ]; then
+              echo "Repo data: $response"
+              break
+            fi
+
+            echo "Retrying..."
+            retry=$((retry + 1))
+            sleep 2
+          done
 
           if [ -z "$response" ]; then
-            echo "Error: No response from GitHub API"
+            echo "Error: Failed to fetch data from $url after $max_retries attempts."
             exit 1
           fi
-
-          echo "Repo data: $response"
 
 
   publish-to-alva:
