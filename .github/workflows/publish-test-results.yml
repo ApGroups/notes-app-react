@@ -42,6 +42,20 @@ jobs:
           name: cypress-results
           path: cypress/reports
 
+      - name: Check and Process Test Results
+        run: |
+          if [ -f "cypress/reports/mochawesome.json" ]; then
+            echo "File found: cypress/reports/mochawesome.json"
+            escapedResults=$(jq -c '[.results[].suites[].tests[] | {test: .title, result: .state}]' cypress/reports/mochawesome.json | sed 's/"/\\"/g')
+            echo "Processed Results: $escapedResults"
+          else
+            echo "File not found: cypress/reports/mochawesome.json"
+            exit 1
+          fi
+        env:
+          CI: true
+
+
       - name: Fetch GitHub Repo Data
         run: |
           response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/ApGroups/notes-app-react)
