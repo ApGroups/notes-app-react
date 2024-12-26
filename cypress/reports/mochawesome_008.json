@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-12-25T21:15:01.643Z",
+    "end": "2024-12-25T21:15:04.301Z",
+    "duration": 2658,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "c9c05326-c479-4de0-853c-95d5db90676e",
+      "title": "",
+      "fullFile": "cypress/e2e/tests.cy.js",
+      "file": "cypress/e2e/tests.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "286600e1-711c-4645-ac2d-dced33586681",
+          "title": "Notes App",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should create notes and find them on the list",
+              "fullTitle": "Notes App should create notes and find them on the list",
+              "timedOut": null,
+              "duration": 2631,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Visit the app's homepage\ncy.visit(\"/\");\n// Create the first note\ncy.get(\"[data-type=title]\").type(\"New note\");\ncy.get(\"[data-type=body]\").type(\"Note body\");\ncy.get('[data-type=notes-form]').submit();\n// Verify the first note exists in the list\ncy.get('[data-type=note]').should('contain.text', 'New note').and('contain.text', 'Note body');\n// Create the second note\ncy.get(\"[data-type=title]\").clear().type(\"Another note\");\ncy.get(\"[data-type=body]\").clear().type(\"Another body\");\ncy.get('[data-type=notes-form]').submit();\n// Verify the second note exists in the list\ncy.get('[data-type=note]').should('contain.text', 'Another note').and('contain.text', 'Another body');",
+              "err": {},
+              "uuid": "1c9a8cdb-7c60-4bd5-ab18-35fa4ffc66eb",
+              "parentUUID": "286600e1-711c-4645-ac2d-dced33586681",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "1c9a8cdb-7c60-4bd5-ab18-35fa4ffc66eb"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2631,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
