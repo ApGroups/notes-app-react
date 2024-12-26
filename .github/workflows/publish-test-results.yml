@@ -42,50 +42,10 @@ jobs:
           name: cypress-results
           path: cypress/reports/mocha
 
-      - name: Check and Process Test Results
-        run: |
-          TEST_RESULTS_FILE="cypress/reports/mocha/mochawesome.json"
-          if [ -f "$TEST_RESULTS_FILE" ]; then
-            echo "File found: $TEST_RESULTS_FILE"
-            escapedResults=$(jq -c '[.results[].suites[].tests[] | {test: .title, result: .state}]' "$TEST_RESULTS_FILE" | sed 's/"/\\"/g')
-            echo "Processed Results: $escapedResults"
-          else
-            echo "File not found: $TEST_RESULTS_FILE"
-            exit 1
-          fi
-        env:
-          CI: true
-          
-      - name: Debug Variables
-        run: |
-          echo "GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
-          echo "AUTO_SCORE_TOKEN: ${{ secrets.AUTO_SCORE_TOKEN }}"
-          echo "Test Results: $escapedResults"
-
       - name: Fetch GitHub Repo Data
         run: |
-          retry=0
-          max_retries=3
-          url="https://api.github.com/repos/ApGroups/notes-app-react"
-
-          while [ "$retry" -lt "$max_retries" ]; do
-            echo "Attempt: $((retry + 1))"
-            response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "$url")
-
-            if [ -n "$response" ]; then
-              echo "Repo data: $response"
-              break
-            fi
-
-            echo "Retrying in 2 seconds..."
-            retry=$((retry + 1))
-            sleep 2
-          done
-
-          if [ -z "$response" ]; then
-            echo "Error: Failed to fetch data from $url after $max_retries attempts."
-            exit 1
-          fi
+          response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/ApGroups/notes-app-react)
+          echo "Repo data: $response"
 
   publish-to-alva:
     uses: DevSkillsHQ/publish-test-results-workflow/.github/workflows/publish-test-results.yml@main
@@ -94,36 +54,3 @@ jobs:
       contents: write
     secrets:
       AUTO_SCORE_TOKEN: ${{ secrets.AUTO_SCORE_TOKEN }}
-
-  publish-test-results:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Publish Test Results
-        run: |
-          retry=0
-          max_retries=3
-          sleep_time=5
-          status=1
-          auth_header="Authorization: Bearer ${{ secrets.AUTO_SCORE_TOKEN }}"
-          url="https://api.alva.com/test-results" # Replace with the actual endpoint URL
-
-          while [[ "$status" -ne 0 && "$retry" -lt "$max_retries" ]]; do
-            echo "Attempt: $((retry + 1))"
-            status=$(curl -s -o /dev/null -w "%{http_code}" \
-              -X POST \
-              -H "$auth_header" \
-              -H "Content-Type: application/json" \
-              -d "{\"assignmentRepository\": \"ApGroups/notes-app-react\",\"results\": [[{\"test\":\"should create notes and find them on the list\",\"result\":\"passed\"}]]}" \
-              "$url")
-
-            if [[ "$status" -ne 0 ]]; then
-              echo "Attempt $((retry + 1)) failed with status $status. Retrying in $sleep_time seconds..."
-              sleep "$sleep_time"
-            fi
-            retry=$((retry + 1))
-          done
-
-          if [[ "$status" -ne 200 ]]; then
-            echo "Error: Failed to publish test results after $max_retries retries."
-            exit 1
-          fi
