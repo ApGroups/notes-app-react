@@ -44,7 +44,7 @@ jobs:
 
       - name: Check and Process Test Results
         run: |
-          TEST_RESULTS_FILE="cypress/reports/mocha/mochawesome_001.json"
+          TEST_RESULTS_FILE="cypress/reports/mocha/mochawesome.json"
           if [ -f "$TEST_RESULTS_FILE" ]; then
             echo "File found: $TEST_RESULTS_FILE"
             escapedResults=$(jq -c '[.results[].suites[].tests[] | {test: .title, result: .state}]' "$TEST_RESULTS_FILE" | sed 's/"/\\"/g')
